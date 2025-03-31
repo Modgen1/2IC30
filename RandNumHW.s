@@ -25,9 +25,8 @@ main:
 exit:
     LDR     R0, =clockbase      @ Load start address of map
     BL      unmap               @ Unmap the access to hardware
-    LDR     R0, file_desc       @ TASK: Load the value of the file descriptor
-    @ LDR R0, =file_desc
-    @ LDR R0, [R0]
+    LDR     R0, =file_desc      @ TASK: Load the value of the file descriptor
+    LDR R0, [R0]
     BL      close_mem           @ Close /dev/mem
     MOV     R0, R8              @ Place random number in R0 (view on terminal with echo $?)
     MOV     R7, #SYS_EXIT       @ exit syscall
