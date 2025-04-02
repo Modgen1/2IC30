@@ -2,6 +2,42 @@
 @ Adam Watkins, Richard Verhoeven
 @ December 2021
 
+@ Wire the Gertboard as follows: 						
+@   On J2				On J3 			
+@		GP0 -> 			B12 			
+@		GP1 ->			B11 			
+@		GP4 ->			B10 			
+@		GP7 ->			B9 				
+@		GP17-GP24 ->	B8-B3 			
+@		GP25 -> 		B1				
+@   Put output jumpers on B1-B12 (Output side of U3,U4,U5)	
+
+.global main
+
+.equ        SYS_EXIT,   0x1
+
+.equ		GPCLR0, 0x28			@ Value to set a GPIO pin to OFF
+.equ		GPSET0, 0x1C			@ Value to set a GPIO pin to ON
+
+.equ		DISP_MASK, 0x2013659C  @ Logical OR of all GPIO pin values in disp_bits    
+
+                       
+.text
+.include "Init_pins.s"
+.include "Hardware2.s"
+
+
+main:
+		BL	    map_io          	@ open /dev/mem and map hardware
+    	BL	    init_pins
+    	MVN	    R0, #0          	@ Value to display - Move not, set all bits to 1, all pins to high
+		@MOV 	R0, #42
+    	BL	    disp_num
+exit:
+		BL	    unmap_io        	@ unmap and close hardware addresses
+		MOV	    R7, #SYS_EXIT
+		SWI	    0
+
 @ Functions
 
 @@@@ disp_num : Function to display a number in binary on LEDS
