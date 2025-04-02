@@ -2,6 +2,13 @@
 @ Adam Watkins, Richard Verhoeven
 @ December 2021
 
+.equ        SYS_EXIT,   0x1
+
+.equ		GPCLR0, 0x28			@ Value to set a GPIO pin to OFF
+.equ		GPSET0, 0x1C			@ Value to set a GPIO pin to ON
+
+.equ		DISP_MASK, 0x2013659C  @ Logical OR of all GPIO pin values in disp_bits    
+
 @ Functions
 
 @@@@ disp_num : Function to display a number in binary on LEDS
