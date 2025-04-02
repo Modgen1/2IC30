@@ -133,3 +133,6 @@ close_mem:
         STR     R7, [R1]            @ Store cleared descriptor in variable
         LDMFD   SP!, {R0,R1,R7,LR}
         MOV     PC, LR
+
+.align 4
+clockbase:      .word 0x0
